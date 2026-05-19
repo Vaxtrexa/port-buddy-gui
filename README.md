@@ -1,164 +1,104 @@
-# PortBuddy 🚀
+# PortBuddy GUI 🖥️
 
-PortBuddy is a powerful yet simple tool that allows you to expose a port opened on your local host or in a private network to the public internet. It works as a secure tunnel, similar to ngrok, providing a public URL for your local services.
+A graphical user interface for **PortBuddy** - making it easy to expose local ports to the public internet without using the command line.
 
-Whether you're developing a web app, testing webhooks, or sharing access to a local database, PortBuddy makes it easy and secure.
+PortBuddy GUI provides a simple Windows desktop application for managing tunnels, configuring ports, and monitoring connections with an intuitive interface.
 
 ## ✨ Features
 
-- **Multi-protocol support**: Tunnel HTTP, TCP, and UDP traffic.
-- **SSL by default**: All HTTP tunnels are automatically secured with SSL.
-- **Customizable**: Support for static subdomains and custom domains.
-- **Websocket support**: Full support for real-time applications.
-- **Private tunnels**: Secure your tunnels with passcodes.
-- **Cross-platform CLI**: Lightweight CLI built with Java 25 and GraalVM (native executable).
-- **Web Dashboard**: Manage your tunnels, subscriptions, and team members easily.
+- **Easy tunnel management** - Start/stop tunnels with simple button clicks
+- **Multi-protocol support** - HTTP, TCP, and UDP tunnels
+- **Real-time output** - Monitor tunnel logs and connection information
+- **API token authentication** - Secure your tunnels with PortBuddy authentication
+- **Connection display** - View public URLs and connection details instantly
+- **Settings** - Configure custom CLI paths for advanced users
+- **Built-in security** - Automatic SSL for HTTP tunnels
 
 ## 🚀 Quick Start
 
-### 1. Installation
+### 1. Download & Install
 
-Download the latest version of the `portbuddy` CLI for your platform (Windows, Linux, or Mac).
+Download `portbuddy_gui.exe` from the [releases page](https://github.com/quack-stuff/portbuddy-gui/releases).
 
-### 2. Authentication
+No installation needed - just run the executable.
 
-Before exposing ports, you need to authenticate your CLI.
-1. Log in to your account at [portbuddy.dev](https://portbuddy.dev).
-2. Generate an API Token in your dashboard.
-3. Run the following command:
-   ```bash
-   portbuddy init {YOUR_API_TOKEN}
-   ```
+### 2. Authenticate
 
-### 3. Expose a Port
+1. Click the "Save Token" button
+2. Enter your PortBuddy API token (get one at [portbuddy.dev](https://portbuddy.dev))
+3. Token is securely saved locally
 
-#### HTTP (Default)
-Expose a local web server running on port 3000:
-```bash
-portbuddy 3000
-```
-Output: `http://localhost:3000 exposed to: https://abc123.portbuddy.dev`
+### 3. Start a Tunnel
 
-#### TCP
-Expose a local PostgreSQL database:
-```bash
-portbuddy tcp 5432
-```
-Output: `tcp localhost:5432 exposed to: net-proxy-3.portbuddy.dev:43452`
+1. Set your host (default: `localhost`)
+2. Set your port (e.g., `3000`)
+3. Choose protocol (HTTP, TCP, or UDP)
+4. Click "Start Tunnel"
+5. View your public URL in the connection info panel
 
-#### UDP
-Expose a local UDP service:
-```bash
-portbuddy udp 9000
-```
+## 🎮 How to Use
 
-### 4. Run with Docker
+### Main Window
 
-You can also run the PortBuddy CLI inside a Docker container.
+- **Host** - Your local machine hostname (default: localhost)
+- **Port** - Port number to expose (1-65535)
+- **Protocol** - Select HTTP, TCP, or UDP
+- **Port Reservation** - (TCP/UDP only) Specify a custom port
+- **Enable verbose logging** - Shows detailed connection info
+- **Start/Stop buttons** - Control your tunnels
+- **Connection information** - Displays your public URL
+- **Logs** - Real-time tunnel output
+- **Settings** - Configure advanced options
 
-#### Pull the Image
-If you haven't built it locally, you can use the official image (replace with actual image name if applicable):
-```bash
-docker pull amaktech/portbuddy:latest
-```
-*Note: If you are developing locally, you can build the image using `Dockerfile-cli`.*
+### Settings
 
-#### Authentication with Docker
-To use PortBuddy in Docker, you should mount your token file from your host machine to the container. The CLI expects the token at `/root/.port-buddy/token`.
+Click the "Settings" button to:
+- Set a custom path to the PortBuddy CLI (if using advanced features)
+- Leave empty to use default locations
 
-First, authenticate on your host machine:
-```bash
-portbuddy init {YOUR_API_TOKEN}
-```
+## 🛠️ System Requirements
 
-Then, run the Docker container with the token mounted:
-```bash
-docker run -it --rm \
-  -v ~/.port-buddy/token:/root/.port-buddy/token \
-  --network host \
-  amaktech/portbuddy 3000
-```
+- Windows 10 or later
+- [PortBuddy API account](https://portbuddy.dev) (free or paid plan)
 
-#### Mounting a Token File Directly
-If you have your API token in a file (e.g., `my_token.txt`), you can mount it directly:
-```bash
-docker run -it --rm \
-  -v $(pwd)/my_token.txt:/root/.port-buddy/token \
-  --network host \
-  amaktech/portbuddy 3000
-```
+## 📝 Example Usage
 
-*Note: `--network host` is used to allow the container to access services running on your host's localhost (e.g., port 3000).*
+### Expose a Web Server
 
-## 🛠️ CLI Usage
+1. Start your local web server on port 3000
+2. Set Protocol to "HTTP"
+3. Set Port to "3000"
+4. Click "Start Tunnel"
+5. Your app is now accessible at the generated URL (e.g., `https://my-app.portbuddy.dev`)
 
-```text
-Usage: portbuddy [options] [mode] [host:][port]
+### Expose a Database
 
-Modes:
-  http (default), tcp, udp
+1. Set Protocol to "TCP"
+2. Set Port to "5432" (for PostgreSQL)
+3. Click "Start Tunnel"
+4. Your database is accessible via the displayed connection info
 
-Options:
-  -d,  --domain=<domain>        Requested static subdomain (e.g. my-app)
-  -pr, --port-reservation=<hp>  Use specific port reservation host:port for TCP/UDP
-  -pc, --passcode=<passcode>    Protect tunnel with a passcode
-  -v,  --verbose                Enable verbose logging
-  -h,  --help                   Show help message
-  -V,  --version                Show version info
-```
+## 🔒 Security
 
-## 💳 Subscription Plans
+- API tokens are stored locally in your user directory
+- All HTTP tunnels are automatically secured with SSL
+- Your data stays between you and PortBuddy's servers
+- Supports passcode protection (set via CLI or web dashboard)
 
-| Feature | Pro ($0/mo) | Team ($10/mo) |
-| :--- | :--- | :--- |
-| Tunnels | HTTP, TCP, UDP | Everything in Pro |
-| SSL | Included | Included |
-| Subdomains | Static | Static |
-| Custom Domains | Supported | Supported |
-| Team Members | - | Included |
-| Free Tunnels | 1 at a time | 10 at a time |
-| Extra Tunnels | $1/mo each | $1/mo each |
-| Support | Standard | Priority |
+## 📚 More Information
 
-## 🏗️ Architecture
+For detailed information about PortBuddy and its features, visit:
+- [PortBuddy Official Site](https://portbuddy.dev)
+- [PortBuddy GitHub](https://github.com/quack-stuff/portbuddy)
 
-PortBuddy is built as a multi-modular system:
+## 🤝 Support
 
-- **`cli`**: GraalVM-native command-line application (Java 25).
-- **`server`**: Spring Boot 3.5.7 API & Tunnel Management.
-- **`net-proxy`**: High-performance TCP/UDP proxy.
-- **`gateway`**: Webflux-based API Gateway.
-- **`web`**: React-based dashboard (TypeScript + TailwindCSS).
-- **`eureka`**: Service discovery.
-- **`ssl-service`**: Automated SSL certificate management.
-- **`common`**: Shared DTOs and utilities.
-
-## 🛠️ Development
-
-### Prerequisites
-- Java 25
-- Docker & Docker Compose
-- Spring Boot 3
-- Maven 3.9+
-- Node.js & npm (for web module)
-
-### Build
-To build the entire project:
-```bash
-./mvnw clean install
-```
-
-### Run with Docker Compose
-```bash
-docker-compose up -d
-```
+Having issues? Check the [PortBuddy documentation](https://portbuddy.dev/docs) or visit the [community](https://portbuddy.dev/community).
 
 ## 📄 License
 
 This project is licensed under the Apache License, Version 2.0 - see the [LICENSE](LICENSE) file for details.
 
-## 🤝 Community Projects
+---
 
-Projects built by the PortBuddy community:
-
-- **[PortBuddy GUI](https://github.com/quack-stuff/portbuddy-gui)** by Quack - A graphical user interface for PortBuddy on Windows.
+**PortBuddy GUI** - The easiest way to tunnel ports on Windows.
